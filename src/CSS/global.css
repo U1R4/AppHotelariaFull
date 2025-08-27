@@ -1,0 +1,20 @@
+.titulo {
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 20px;
+}
+
+
+.btn-primary {
+    background-color: #4b0505;
+    border: none;
+    font-family: "Lato", "sans-serif";
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.btn-primary:hover {
+    background-color: #4b0505;
+}
+
