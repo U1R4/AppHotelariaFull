@@ -38,7 +38,7 @@ export default function renderRegisterPage() {
     const linkVoltar = document.createElement('a');
     linkVoltar.textContent = "Voltar ao login";
     linkVoltar.className = '';
-    linkVoltar.href = '#/login';
+    linkVoltar.href = 'login';
     linkVoltar.style.textAlign = 'center';
     linkVoltar.style.fontSize = '12px';
     linkVoltar.style.margin = '15px';

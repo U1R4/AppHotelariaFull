@@ -19,22 +19,23 @@ $segment = explode("/", trim($uri, "/"));
 $route = $segment[0] ?? null;
 $subRoute = $segment[1] ?? null;
 
-if ($route === ""){
-    echo "pagina inicial";
+
+
+if ($route != "api"){
+    require __DIR__ . "/public/index.html";
     exit;
-}elseif(in_array($route, ["home","about"])){
-    echo $route;
-    exit;
-}
-elseif($route === "api"){
+
+}elseif($route === "api"){
     if(in_array($subRoute, ["login"])){
         require "routes/${subRoute}.php";
+
     }else{
-    return jsonResponse(['message'=>'rota nao encontrada', 404]);  
+    return jsonResponse(['message'=>'rota nao encontrada', 404]); 
+
     }
     exit;
-}
-else{
+    
+}else{
     echo "404 pagina nao encontrada";
     exit;
 }

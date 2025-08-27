@@ -9,16 +9,15 @@ const routes = {
 };
 
 function getPath() {
-    const url = (location.hash || "").replace(/^#/, "").trim();
-    return url && url.startsWith("/") ? url : "/login";
+    const url = (location.pathname || "").replace("/AppHotelariaFull/", "/").trim();
+    console.log(url);
+    return url && url.startsWith("/") ? url : "/home";
 }
 
 function renderRoutes() {
     const url = getPath();
-    const render = routes[url] || routes["/login"];
+    const render = routes[url] || routes["/home"];
     render();
 }
-
-window.addEventListener('hashchange', renderRoutes);
 
 document.addEventListener('DOMContentLoaded', renderRoutes);

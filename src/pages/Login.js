@@ -13,7 +13,7 @@ export default function renderLoginPage() {
     const linkVoltar = document.createElement('a');
 
     linkVoltar.textContent = "Não possui uma conta? Crie uma!";
-    linkVoltar.href = '#/register';
+    linkVoltar.href = 'register';
     linkVoltar.style.textAlign = 'center';
     linkVoltar.style.fontSize = '16px';
     linkVoltar.style.padding = '15px';
