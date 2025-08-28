@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ ."/../controllers/PassController.php";
+
 class UserModel{
 
     public static function UserValidation($conn,$email,$pass){
@@ -10,11 +12,15 @@ class UserModel{
         $stmt->execute();
         $result = $stmt->get_result();
 
+    
+
         if($user = $result->fetch_assoc()){
-            if($user['senha'] === $pass){
+            
+            if(PassController::validateHash($pass, $user['senha'])){ 
                 unset($user['senha']);
+                return $user;
             }
-            return $user;
+            
         }
         return false;
     }

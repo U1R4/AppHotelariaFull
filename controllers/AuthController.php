@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . "/../models/UserModel.php";
- 
+require_once "PassController.php";
 class AuthController{
     public static function login($conn, $data) {
         $data['email'] = trim($data['email']);
