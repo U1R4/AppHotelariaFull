@@ -9,9 +9,9 @@ export default function renderLoginPage() {
     const navbar = Navbar();
     nav.appendChild(navbar);
 
-    
 
     const formulario = Form();
+    const contentForm = formulario.querySelector('form');
 
     const inputEmail = contentForm.querySelector('input[type="email"]');
     const inputSenha = contentForm.querySelector('input[type="password"]');
@@ -31,7 +31,6 @@ export default function renderLoginPage() {
         }
     });
     
-    const contentForm = formulario.querySelector('form');
     const linkVoltar = document.createElement('a');
 
     linkVoltar.textContent = "Não possui uma conta? Crie uma!";
