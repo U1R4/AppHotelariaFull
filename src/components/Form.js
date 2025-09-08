@@ -10,7 +10,7 @@ export default function Form(){
     divRoot.appendChild(container);
 
     const titulo = document.createElement('h1');
-    titulo.textContent = 'Crie uma conta';
+    titulo.textContent = 'Login';
     titulo.className = 'titulo';
     titulo.style.textAlign = 'center';
     titulo.style.marginBottom = '25px';

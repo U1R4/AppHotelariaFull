@@ -23,11 +23,30 @@ export async function loginRequest(email, senha){
         // Se nao for JSON valido, data permanece null
         data = null;
     }
+
+    if (!data || !data.token) {
+        const message= "Resposta inválida do servidor. Token ausente!";
+        return {ok: false, token: null, raw: data, message};
+    }
  
     return {
         ok: true,
         user: data.user ?? null,
         raw: data
-    }
+    } 
 }
+
+export function saveToken(token) {
+        localStorage.setItem("auth_token", token);
+    }
+
+    /* Recuperar a chave a cada página que o usuario navegar */
+    export function getToken(token) {
+        return localStorage.getItem("auth_token");
+    }
+
+    /* Função para renovar a chave token quando o usuario deslogar*/
+    export function clearToken() {
+        localStorage.removeItem("auth_token");
+    }
  

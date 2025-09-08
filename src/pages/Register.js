@@ -1,6 +1,7 @@
  
 import Form from "../components/Form.js";
 import Navbar from "../components/Navbar.js";
+import Footer from "../components/footer.js";
 
 export default function renderRegisterPage() {
     const nav = document.getElementById('navbar');
@@ -16,7 +17,6 @@ export default function renderRegisterPage() {
 
     const contentForm = formulario.querySelector('form');
 
-    //Novos Elementos
     const nome = document.createElement('input');
     nome.type = 'text';
     nome.placeholder = "Digite seu nome";
@@ -44,4 +44,10 @@ export default function renderRegisterPage() {
     linkVoltar.style.margin = '15px';
 
     contentForm.appendChild(linkVoltar);
+
+    const footer = document.getElementById('footer');
+    footer.innerHTML = '';
+
+    const footers = Footer();
+    footer.appendChild(footers);
 }
