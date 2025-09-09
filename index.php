@@ -39,6 +39,5 @@ if ($route != "api"){
 }else{
     echo "404 pagina nao encontrada";
     exit;
-}
-echo var_dump($segment);
+};
 ?>

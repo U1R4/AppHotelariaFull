@@ -1,16 +1,14 @@
 export async function loginRequest(email, senha){
-    const response = await fetch("/api/login", {
+   
+    const dados = {email, password: senha};
+    const response = await fetch("api/login", {
         method: "POST",
         headers: {
             "Accept": "application/json",
-            "Content-type": "application/x-www-form-urlencoded;charset=UTF-8"
+            "Content-Type": "application/json"
         },
-        body: new URLSearchParams({ email, senha }).toString(),
-        /*URL da requisiçao é a mesma da origem dp front(mesmo protocolo http/mesmo dominio
-        local/mesma porta 80 do servidoer web apache)
-        Front: http://localhost/primesite/public/index.html
-        Back: http://localhost/primesite/api/login.php
-        */
+        body: JSON.stringify(dados),
+       
        credentials: "same-origin"
     });
  
@@ -31,7 +29,7 @@ export async function loginRequest(email, senha){
  
     return {
         ok: true,
-        user: data.user ?? null,
+        token: data.token,
         raw: data
     } 
 }

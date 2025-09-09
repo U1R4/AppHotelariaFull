@@ -1,3 +1,4 @@
+import { loginRequest, saveToken } from "../api/authAPI.js";
 import Form from "../components/Form.js";
 import Navbar from "../components/Navbar.js";
 import Footer from "../components/footer.js";
@@ -20,11 +21,11 @@ export default function renderLoginPage() {
     contentForm.addEventListener("submit", async (e)=> {
         e.preventDefault();
         const email = inputEmail.value.trim();
-        const pass = inputSenha.value.trim();
+        const senha = inputSenha.value.trim();
 
         try{
             const result = await loginRequest(email, senha);
-            console.log("tudo ok");
+            saveToken(result.token);
         }
         catch{
             console.log("Puta");
