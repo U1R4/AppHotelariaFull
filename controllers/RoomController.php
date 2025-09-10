@@ -24,9 +24,9 @@
         public static function delete($conn, $id){
             $result = RoomModel::delete($conn, $id);
             if($result){
-                return jsonResponse(['message'=> 'Roomdeletado']);
+                return jsonResponse(['message'=> 'Quarto deletado']);
             }else{
-            return jsonResponse(['message'=> 'Deu merda'], 400);
+            return jsonResponse(['message'=> ''], 400);
             }
         }
 
