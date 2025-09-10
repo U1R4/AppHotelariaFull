@@ -14,20 +14,20 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 $baseFolder = Strtolower(basename(dirname(__FILE__)));
 $uri = str_replace("/$baseFolder", "", $uri);
-$segment = explode("/", trim($uri, "/"));
+$segments = explode("/", trim($uri, "/"));
 
-$route = $segment[0] ?? null;
-$subRoute = $segment[1] ?? null;
+$route = $segments[0] ?? null;
+$subRoute = $segments[1] ?? null;
 
 
 
 if ($route != "api"){
-    require __DIR__ . "/public/index.html";
-    //require "teste.php";
+    //require __DIR__ . "/public/index.html";
+    require "teste.php";
     exit;
 
 }elseif($route === "api"){
-    if(in_array($subRoute, ["login"])){
+    if(in_array($subRoute, ["login", "rooms"])){
         require "routes/${subRoute}.php";
 
     }else{

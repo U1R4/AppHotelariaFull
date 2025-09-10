@@ -1,5 +1,5 @@
 <?php
-class RoolModel{
+class RoomModel{
     public static function create($conn, $data) {
         $sql = "INSERT INTO quartos (nome, numero, qtd_cama_casaL, qtd_cama_solteiro, preco, disponivel) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
