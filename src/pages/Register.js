@@ -1,4 +1,3 @@
- 
 import Form from "../components/Form.js";
 import Navbar from "../components/Navbar.js";
 import Footer from "../components/footer.js";

@@ -2,6 +2,7 @@ import Hero from "../components/Hero.js";
 import Navbar from "../components/Navbar.js";
 import Footer from "../components/footer.js";
 import Card from "../components/RoomCard.js";
+import dateSelector from "../components/dateSelector.js";
 
 export default function renderHomePage(){
 
@@ -16,6 +17,9 @@ export default function renderHomePage(){
     
     const hero = Hero();
     divRoot.appendChild(hero);
+
+    const datesSelector = dateSelector();
+    divRoot.appendChild(datesSelector);
 
     const card = Card();
     divRoot.appendChild(card);

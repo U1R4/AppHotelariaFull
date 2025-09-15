@@ -2,7 +2,7 @@ export default function Navbar() {
     const navbar = document.createElement('div');
     navbar.innerHTML = 
     `
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary navbarTop">
         <div class="container-fluid">
             <a class="navbar-brand" href="home">
             <img src="public/assets/images/LogoHotelBlack.png" style = "width: 30px; height: 30px;"></a>
@@ -38,8 +38,8 @@ export default function Navbar() {
                 </li>
             </ul>
             <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-                <button class="btn btn-outline-success" type="submit">Search</button>
+                <input class="form-control me-2 inputSearch" type="search" placeholder="Search" aria-label="Search"/>
+                <button class="btn btn-outline-success btnNavbar type="submit">Search</button>
             </form>
             </div>
         </div>

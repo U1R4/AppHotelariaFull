@@ -34,11 +34,7 @@ input:focus {
 }
 
 body {
-    background-image: url(../../public/assets/images/Minimalist-background.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center center;
+    background-color: rgb(255, 255, 255);
 }
 
 a {
@@ -51,21 +47,57 @@ a {
 }
 
 .hero-frame {
-    height: 63vh;
-    margin: 0 auto;
     overflow: hidden;
-
 }
  
-.hero-img {
-    width: 100%;
-    height: 100%;
+.hero img {
+    height: 63vh;
     object-fit: cover;
     object-position: center;
 }
 
 @media (max-width: 576px) {
-    .hero-frame {
+    .hero img, .hero {
         height: 50vh;
     }
+}
+
+.containerCard {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    margin-top: 70px;
+}
+
+.dateSelector{
+    background-color: #ffffff;
+    width: 100%;
+    justify-content: center;
+    padding: 20px;
+}
+
+@media (max-width: 576px) {
+    .dateSelector {
+        height: 50vh;
+    }
+}
+
+.btnNavbar{
+    height: 40px;
+}
+
+.inputSearch{
+    margin-bottom: 0px;
+}
+
+.navbarTop {
+    position: relative;
+    z-index: 1000;
+}
+
+.inputDate{
+    font-size: 18px;
+    margin-bottom: 0px;
 }
