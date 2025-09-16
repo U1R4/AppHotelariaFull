@@ -2,7 +2,7 @@ export default function dateSelector() {
 
     const dateSelectorDiv = document.createElement('div');
     dateSelectorDiv.style.display = 'flex';
-    dateSelectorDiv.style.zIndex = '1000';
+    dateSelectorDiv.style.zIndex = '100';
     dateSelectorDiv.style.gap = '12px';
     dateSelectorDiv.className = 'dateSelector';
     

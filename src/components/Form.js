@@ -4,7 +4,7 @@ export default function Form(){
     divRoot.innerHTML = '';
 
     const container = document.createElement('div');
-    container.className = 'card p-4 shadow-lg';
+    container.className = 'card p-4 shadow-lg containerDiv';
     container.style.width = '100%';
     container.style.maxWidth = '360px';
     divRoot.appendChild(container);

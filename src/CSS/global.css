@@ -49,6 +49,8 @@ a {
 
 .hero-frame {
     overflow: hidden;
+    padding-top: 60px;
+    border-radius: 10px;
 }
  
 .hero img {
@@ -63,6 +65,10 @@ a {
     }
 }
 
+.containerDiv{
+    margin: 10%;
+}
+
 .containerCard {
     display: flex;
     width: 100%;
@@ -72,11 +78,18 @@ a {
     margin-top: 70px;
 }
 
+.subTitulo{
+    font-weight: 500;
+    font-style: normal;
+    font-family: "Lato","sans-serif";
+}
+
 .dateSelector{
     background-color: #ffffff;
     width: 100%;
     justify-content: center;
     padding: 20px;
+    z-index: 100;
 }
 
 @media (max-width: 576px) {
@@ -94,11 +107,9 @@ a {
 }
 
 .navbarTop {
-    position: relative;
-    z-index: 1000;
-}
-
-.inputDate{
-    font-size: 18px;
-    margin-bottom: 0px;
+    position: fixed; 
+    top: 0;          
+    left: 0;         
+    width: 100%;     
+    z-index: 1000;   
 }
