@@ -36,8 +36,18 @@ export default function renderHomePage(){
     subTituloCard.style.textAlign = 'center';
     divRoot.appendChild(subTituloCard);
 
-    const card = Card();
-    divRoot.appendChild(card);
+    const cardDiv = document.createElement('div');
+    cardDiv.style.display ='grid';
+    cardDiv.style.gridTemplateColumns ='auto auto auto auto auto';
+    cardDiv.className = 'cards';
+    cardDiv.style.gap = '15px';
+
+    for(var i=0; i < 10; i++){
+        const card = Card();
+        cardDiv.appendChild(card);
+    }
+
+    divRoot.appendChild(cardDiv);
 
     const footer = document.getElementById('footer');
     footer.innerHTML = '';
