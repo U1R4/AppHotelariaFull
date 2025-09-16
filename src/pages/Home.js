@@ -42,7 +42,7 @@ export default function renderHomePage(){
     cardDiv.className = 'cards';
     cardDiv.style.gap = '15px';
 
-    for(var i=0; i < 10; i++){
+    for(var i=0; i < 30; i++){
         const card = Card();
         cardDiv.appendChild(card);
     }
