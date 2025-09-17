@@ -1,13 +1,13 @@
 <?php
-require_once __DIR__ . "/../controllers/RoomController.php";
+require_once __DIR__ . "/../controllers/ClientController.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET'){
     $id =  $segments[2] ?? null;
     
     if(isset($id)){
-        RoomController::getById($conn, $id);
+        ClientController::getById($conn, $id);
     }else{
-        RoomController::listAll($conn);
+        ClientController::listAll($conn);
     }
 
 
@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
     $id =  $segments[2] ?? null;
     
     if(isset($id)){
-        RoomController::delete($conn, $id);
+        ClientController::delete($conn, $id);
     }else{
         jsonResponse(['message'=>"ID necessario"], 400);
     }
@@ -25,18 +25,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
     $data = json_decode(file_get_contents('php://input'), true);
     
     if(isset($data)){
-        RoomController::create($conn, $data);
+        ClientController::create($conn, $data);
     }else{
         jsonResponse(['message'=>"Atributos invalidos"], 400);
     }
     
 
 }elseif ($_SERVER['REQUEST_METHOD'] === "PUT"){  
-    $id =  $data['id'];
     $data = json_decode(file_get_contents('php://input'), true);
+    $id =  $data['id'];
     
     if(isset($data)){
-        RoomController::update($conn, $id, $data);
+        ClientController::update($conn, $id, $data);
     }else{
         jsonResponse(['message'=>"Atributos invalidos"], 400);
     }
