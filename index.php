@@ -25,7 +25,7 @@ if ($route != "api"){
     exit;
 
 }elseif($route === "api"){
-    if(in_array($subRoute, ["login", "rooms", "client", "addon","request"])){
+    if(in_array($subRoute, ["login", "rooms", "client", "addon","request", "reserve", "clientlogin"])){
         require "routes/${subRoute}.php";
 
     }else{

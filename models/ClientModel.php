@@ -16,13 +16,13 @@ class ClientModel{
     }
 
     public static function getAll($conn) {
-        $sql = "SELECT * FROM clientes";
+        $sql = "SELECT id, nome, email, telefone, cpf, cargo_id FROM clientes";
         $result = $conn->query($sql);
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
     public static function getById($conn, $id) {
-        $sql = "SELECT * FROM clientes WHERE id= ?";
+        $sql = "SELECT id, nome, email, telefone, cpf, cargo_id FROM clientes WHERE id= ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
         $stmt->execute();
@@ -49,6 +49,26 @@ class ClientModel{
             $id
         );
         return $stmt->execute();
+    }
+
+    public static function ClientValidation($conn,$email,$pass){
+        
+        $sql = "SELECT clientes.id, clientes.email, clientes.senha, clientes.nome, clientes.nome FROM clientes WHERE clientes.email = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+    
+
+        if($client = $result->fetch_assoc()){
+            
+            if(PassController::validateHash($pass, $client['senha'])){ 
+                unset($client['senha']);
+                return $client;  
+            }
+        return false;
+        }
     }
 }
 ?>

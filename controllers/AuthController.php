@@ -4,7 +4,7 @@ require_once "PassController.php";
 require_once __DIR__ . "/../helpers/token_jwt.php";
 
 class AuthController{
-    public static function login($conn, $data) {
+    public static function loginUser($conn, $data) {
         $data['email'] = trim($data['email']);
         $data['password'] = trim($data['password']);
  
