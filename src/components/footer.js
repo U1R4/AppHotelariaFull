@@ -125,6 +125,8 @@ export default function Footer() {
   <!-- Copyright -->
 </footer>
 <!-- Footer -->
-  `
+  `;
+
+  
 return footer;
 }
