@@ -46,7 +46,7 @@ export default function renderCartPage(){
           </tfoot>
         </table>
 
-        <button class="btn btn-primary shadow-lg">Reservar</button>
+        <button type="submit" class="btn btn-primary text-end">Reservar</button>
     `;
     divRoot.appendChild(grid);
 
