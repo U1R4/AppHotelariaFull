@@ -120,3 +120,9 @@ a {
     width: 60%;
     align-items: center;
 }
+
+.tablestyle .btn {
+    display: block;
+    margin: 20px 0 0 0;
+    text-align: left;
+}

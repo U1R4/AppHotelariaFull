@@ -38,7 +38,6 @@ export default function dateSelector() {
     guestsAmount.style.maxWidth = '300px';
     guestsAmount.style.maxHeight = '70px';
     dateSelectorDiv.appendChild(guestsAmount);
-
     
     const btnDateReserv = document.createElement('button');
     btnDateReserv.type = 'submit';

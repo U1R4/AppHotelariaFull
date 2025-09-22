@@ -1,19 +1,19 @@
 import Navbar from "../components/Navbar.js";
 import Footer from "../components/footer.js";
 
-export default function renderCartPage(){
+export default function renderCartPage() {
 
-    const nav = document.getElementById('navbar');
-    nav.innerHTML = '';   
-    const navbar = Navbar();
-    nav.appendChild(navbar);
+  const nav = document.getElementById('navbar');
+  nav.innerHTML = '';
+  const navbar = Navbar();
+  nav.appendChild(navbar);
 
-    const divRoot = document.getElementById('root');
-    divRoot.innerHTML = '';
+  const divRoot = document.getElementById('root');
+  divRoot.innerHTML = '';
 
-    const grid = document.createElement('div');
-    grid.className = "tablestyle";
-    grid.innerHTML = `
+  const grid = document.createElement('div');
+  grid.className = "tablestyle";
+  grid.innerHTML = `
         <table class="table table-striped table-bordered">
           <thead>
             <tr>
@@ -48,11 +48,11 @@ export default function renderCartPage(){
 
         <button type="submit" class="btn btn-primary text-end">Reservar</button>
     `;
-    divRoot.appendChild(grid);
+  divRoot.appendChild(grid);
 
 
-    const footer = document.getElementById('footer');
-    footer.innerHTML = '';
-    const footers = Footer();
-    footer.appendChild(footers);
+  const footer = document.getElementById('footer');
+  footer.innerHTML = '';
+  const footers = Footer();
+  footer.appendChild(footers);
 }
