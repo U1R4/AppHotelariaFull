@@ -50,8 +50,18 @@ class RoomModel{
         return $stmt->execute();
     }
 
-    public static function searchAvailable(){
-       
+        public static function searchAvailable($conn, $data){
+
+        $sql="SELECT q.*, (q.qnt_cama_casal * 2 + q.qnt_cama_solteiro) as capacidadeTotal FROM quartos q WHERE q.id NOT IN 
+        (SELECT r.quarto_id FROM reservas r WHERE r.inicio <= ? AND r.fim >= ?) AND (q.qnt_cama_casal * 2 + q.qnt_cama_solteiro) >= ?;";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssi",
+            $data["inicio"],
+            $data["fim"],
+            $data["capacidadeTotal"]
+        );
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 }
 ?>

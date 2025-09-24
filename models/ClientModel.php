@@ -53,7 +53,7 @@ class ClientModel{
 
     public static function ClientValidation($conn,$email,$pass){
         
-        $sql = "SELECT clientes.id, clientes.email, clientes.senha, clientes.nome, clientes.nome FROM clientes WHERE clientes.email = ?";
+        $sql = "SELECT clientes.id, clientes.email, clientes.senha, clientes.nome FROM clientes WHERE clientes.email = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $email);
         $stmt->execute();

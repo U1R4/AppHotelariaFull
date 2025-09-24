@@ -7,15 +7,10 @@ require_once __DIR__ ."/helpers/token_jwt.php";
 
 
 $data = [
-    "id" => 2,
-    "nome" => "ggg",
-    "numero" => 505,
-    "qnt_cama_casal" => 2,
-    "qnt_cama_solteiro" =>2,
-    "preco" => 200.65,
-    "disponivel" => 1
+    "inicio" => "2025-10-10",
+    "fim" => "2026-10-10"
 ];
 
-ClientController::listAll($conn);
+// RoomController::searchAvailable($conn ,$data);
 
 ?>

@@ -38,5 +38,10 @@
                 return jsonResponse(['message'=> 'Deu merda'], 400);
             }
         }
-}
+
+        public static function searchAvailable($conn, $data){
+            $result = RoomModel::searchAvailable($conn, $data);
+            return jsonResponse($result);
+        }
+    }   
 ?>

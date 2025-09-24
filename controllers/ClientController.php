@@ -1,7 +1,7 @@
 <?php
-    require_once __DIR__ . "/../models/ClientModel.php";
-    require_once "PassController.php";
-    require_once __DIR__ . "/../helpers/token_jwt.php";
+require_once __DIR__ . "/../models/ClientModel.php";
+require_once "PassController.php";
+require_once __DIR__ . "/../helpers/token_jwt.php";
 
 class ClientController{
     public static function create($conn, $data){
