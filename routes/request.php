@@ -15,11 +15,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
     $data = json_decode(file_get_contents('php://input'), true);
     
     if(isset($data)){
-        RequestController::create($conn, $data);
+        $validateInfo = ValidateController::validate('Request', $data)
+    
+        if($validateInfo('true')){
+            RequestController::create($conn, $data);
+        }else{
+            jsonResponse(['message'=>"Atributos invalidos"], 400);
+        }
+    
     }else{
         jsonResponse(['message'=>"Atributos invalidos"], 400);
     }
-    
 
 }elseif ($_SERVER['REQUEST_METHOD'] === "DELETE"){
     $data = json_decode(file_get_contents('php://input'), true);
