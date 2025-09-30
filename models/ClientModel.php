@@ -2,14 +2,13 @@
 <?php
 class ClientModel{
     public static function create($conn, $data) {
-        $sql = "INSERT INTO clientes (nome, email, telefone, cpf, cargo_id, senha) VALUES (?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO clientes (nome, email, telefone, cpf, senha) VALUES (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ssssis",
             $data["nome"],
             $data["email"],
             $data["telefone"],
             $data["cpf"],
-            $data["cargo_id"],
             $data["senha"]
         );
         return $stmt->execute();

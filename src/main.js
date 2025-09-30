@@ -13,12 +13,12 @@ const routes = {
 function getPath() {
     const url = (location.pathname || "").replace("/AppHotelariaFull/", "/").trim();
     console.log(url);
-    return url && url.startsWith("/") ? url : "/home";
+    return url && url.startsWith("/") ? url : "/register";
 }
 
 function renderRoutes() {
     const url = getPath();
-    const render = routes[url] || routes["/home"];
+    const render = routes[url] || routes["/register"];
     render();
 }
 
