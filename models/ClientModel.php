@@ -36,14 +36,13 @@ class ClientModel{
     }
 
     public static function update($conn ,$id ,$data) {
-        $sql = "UPDATE clientes SET nome=?, email=?, telefone=?, cpf=?, cargo_id=?, senha=? WHERE id= ?";
+        $sql = "UPDATE clientes SET nome=?, email=?, telefone=?, cpf=?, senha=? WHERE id= ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ssssisi",
             $data["nome"],
             $data["email"],
             $data["telefone"],
             $data["cpf"],
-            $data["cargo_id"],
             $data["senha"],
             $id
         );
@@ -52,14 +51,13 @@ class ClientModel{
 
     public static function ClientValidation($conn,$email,$pass){
         
-        $sql = "SELECT clientes.id, clientes.email, clientes.senha, clientes.nome FROM clientes WHERE clientes.email = ?";
+        $sql = "SELECT clientes.id, clientes.email, clientes.senha, clientes.nome, clientes.nome AS cargo 
+        FROM clientes JOIN cargos ON clientes.cargo_id = cargos.id WHERE clientes.email = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
-
-    
-
+        
         if($client = $result->fetch_assoc()){
             
             if(PassController::validateHash($pass, $client['senha'])){ 

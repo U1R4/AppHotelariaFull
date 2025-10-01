@@ -10,6 +10,9 @@ class ClientController{
         $result = ClientModel::create($conn, $data);
         if($result){
             return jsonResponse(['message'=> 'criado']);
+            
+            $token = createToken($client);
+            return jsonResponse([ "token" => $token ]);
         }else{
         return jsonResponse(['message'=> 'Deu merda'], 400);
         }
@@ -43,28 +46,5 @@ class ClientController{
         }
     }
 
-    public static function loginClient($conn, $data) {
-    
-        $data['email'] = trim($data['email']);
-        $data['password'] = trim($data['password']);
-
-        if (empty($data['email']) || empty($data['password'])) {
-            return jsonResponse([
-                "status" => "erro",
-                "message" => "Preencha todos os campos!"
-            ], 401);
-        }
-
-        $client = ClientModel::ClientValidation($conn, $data['email'], $data['password']);
-        if ($client) {
-            $token = createToken($client);
-            return jsonResponse([ "token" => $token ]);
-        } else {
-            return jsonResponse([
-                "status" => "erro",
-                "message" => "Credenciais inválidas!"
-            ], 401);
-        }
-    }
 }
 ?>
