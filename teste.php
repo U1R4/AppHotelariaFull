@@ -12,5 +12,5 @@ $data = [
 ];
 
 // RoomController::searchAvailable($conn ,$data);
-
+echo "pagina teste";
 ?>

@@ -1,20 +1,26 @@
 <?php
 require_once __DIR__ . "/../models/ClientModel.php";
 require_once "PassController.php";
+require_once "AuthController.php";
 require_once __DIR__ . "/../helpers/token_jwt.php";
 
 class ClientController{
     public static function create($conn, $data){
-        $data['senha'] = PassController::generateHash($data['senha']);
+        $passUser = [
+            'email'=>$data['email'],
+            'password'=>$data['senha']
+        ];
         
+        $data['senha'] = PassController::generateHash($data['senha']);
+
         $result = ClientModel::create($conn, $data);
+
         if($result){
-            return jsonResponse(['message'=> 'criado']);
-            
-            $token = createToken($client);
-            return jsonResponse([ "token" => $token ]);
+
+            AuthController::loginClient($conn, $passUser);
+
         }else{
-        return jsonResponse(['message'=> 'Deu merda'], 400);
+            return jsonResponse(['message'=> 'Deu merda'], 400);
         }
     }
     

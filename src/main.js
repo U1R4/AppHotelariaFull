@@ -11,14 +11,22 @@ const routes = {
 };
 
 function getPath() {
-    const url = (location.pathname || "").replace("/AppHotelariaFull/", "/").trim();
-    console.log(url);
-    return url && url.startsWith("/") ? url : "/login";
+    const pathParts = location.pathname.split('/').filter(Boolean);
+    pathParts.shift();
+    const path = '/' + pathParts.join('/');
+    console.log(path);
+    return path;
 }
+
+// function getPath() {
+//     const url = (location.pathname || "").replace("/AppHotelariaFull/", "/").trim();
+//     console.log(url);
+//     return url && url.startsWith("/") ? url : "/home";
+// }
 
 function renderRoutes() {
     const url = getPath();
-    const render = routes[url] || routes["/login"];
+    const render = routes[url] || routes["/home"];
     render();
 }
 

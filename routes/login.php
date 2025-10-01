@@ -3,14 +3,14 @@
 
     if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $data = json_decode(file_get_contents('php://input'), true);
-        $opcao = $segments[3] ?? null;
+        $opcao = $segments[2] ?? null;
         
         if($opcao === "client"){
             AuthController::loginClient($conn, $data);
         }elseif($opcao === "user"){
             AuthController::loginUser($conn, $data);
         }else{
-            jsonReponse([
+            jsonResponse([
                 "status"=> "error",
                 "mensage"=> "Rota nao encontrada"
             ]);

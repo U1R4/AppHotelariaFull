@@ -4,7 +4,7 @@ class ClientModel{
     public static function create($conn, $data) {
         $sql = "INSERT INTO clientes (nome, email, telefone, cpf, senha) VALUES (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssssis",
+        $stmt->bind_param("sssss",
             $data["nome"],
             $data["email"],
             $data["telefone"],
@@ -38,7 +38,7 @@ class ClientModel{
     public static function update($conn ,$id ,$data) {
         $sql = "UPDATE clientes SET nome=?, email=?, telefone=?, cpf=?, senha=? WHERE id= ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssssisi",
+        $stmt->bind_param("sssssi",
             $data["nome"],
             $data["email"],
             $data["telefone"],
@@ -51,7 +51,7 @@ class ClientModel{
 
     public static function ClientValidation($conn,$email,$pass){
         
-        $sql = "SELECT clientes.id, clientes.email, clientes.senha, clientes.nome, clientes.nome AS cargo 
+        $sql = "SELECT clientes.id, clientes.email, clientes.senha, clientes.nome, cargos.nome AS cargo 
         FROM clientes JOIN cargos ON clientes.cargo_id = cargos.id WHERE clientes.email = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $email);
