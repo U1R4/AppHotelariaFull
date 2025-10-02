@@ -23,7 +23,6 @@ export async function createClient(nome, cpf, telefone, email, senha) {
     }
     return {
         ok: true,
-        // token: data.token,
         raw: data
     }
 }

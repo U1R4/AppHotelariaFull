@@ -12,13 +12,11 @@ export async function loginRequest(email, senha){
        credentials: "same-origin"
     });
  
-    //Interpreta a resposta como JSON
     let data = null;
     try {
         data = await response.json();
     }
     catch{
-        // Se nao for JSON valido, data permanece null
         data = null;
     }
 
@@ -38,12 +36,10 @@ export function saveToken(token) {
         localStorage.setItem("auth_token", token);
     }
 
-    /* Recuperar a chave a cada página que o usuario navegar */
     export function getToken(token) {
         return localStorage.getItem("auth_token");
     }
 
-    /* Função para renovar a chave token quando o usuario deslogar*/
     export function clearToken() {
         localStorage.removeItem("auth_token");
     }
