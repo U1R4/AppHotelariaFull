@@ -24,10 +24,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 
 }elseif ($_SERVER['REQUEST_METHOD'] === "POST"){  
     $data = json_decode(file_get_contents('php://input'), true);
+    
+    $inicio = new DateTime($data['inicio']);
+    $fim = new DateTime($data['fim']);
+    
+    $inicio->setTime(14, 0, 0);
+    $fim->setTime(12, 0, 0);
+       
+    $data['inicio'] = $inicio->format('Y-m-d H:i:s');
+    $data['fim'] = $fim->format('Y-m-d H:i:s');
+
     $dates = [$data['inicio'], $data['fim']];
 
     if(isset($dates)){
         RoomController::searchAvailable($conn, $data);
+        // jsonResponse(['message'=>$dates], 400);
     }elseif($data){
         RoomController::create($conn, $data);
     }else{
