@@ -1,6 +1,7 @@
 <?php
 require_once "config/database.php";
 require_once "helpers/response.php";
+require_once "helpers/token_jwt.php";
 
 if ($errorDB) {
     echo "Erro no Site";

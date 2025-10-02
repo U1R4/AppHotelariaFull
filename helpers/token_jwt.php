@@ -21,7 +21,22 @@ function validateToken($token){
         return $decode->sub;
 
     }catch(Exception $error){
-        return 'se fudeu nao foi';
+        return false;
     }
+}
+
+function validateTokenAPI(){
+    $headers = getallheaders();
+    if(!isset($headers["Authorization"])){
+       jsonResponse(["mensage"=> "Token Ausente"],401);
+       exit;
+    }
+    $token = str_replace("Bearer ","", $headers["Authorization"]);
+
+    if(!validateToken($token)){
+        jsonResponse(["mensage"=> "Token Invalido"],401);
+        exit;
+    }
+    
 }
 ?>
