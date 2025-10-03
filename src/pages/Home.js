@@ -3,9 +3,9 @@ import Navbar from "../components/Navbar.js";
 import Footer from "../components/footer.js";
 import Card from "../components/RoomCard.js";
 import dateSelector from "../components/dateSelector.js";
+import { listAllRoomRequest } from "../api/roomsAPI.js";
 
-export default function renderHomePage(){
-
+export default function renderHomePage() {
     const nav = document.getElementById('navbar');
     nav.innerHTML = '';
         
@@ -20,6 +20,49 @@ export default function renderHomePage(){
 
     const datesSelector = dateSelector();
     divRoot.appendChild(datesSelector);
+
+    const btnPesquisar = datesSelector.querySelector('button');
+    const dateSelectorIn = datesSelector.querySelector('.check-in');
+    const dateSelectorOut = datesSelector.querySelector('.check-out');
+    const guestsAmount = datesSelector.querySelector('select');
+
+    btnPesquisar.addEventListener("click", async (e) => {
+        e.preventDefault();
+ 
+        const inicio = dateSelectorIn.value;
+        const fim = dateSelectorOut.value;
+        const capacidadeTotal = parseInt(guestsAmount.value, 10);
+ 
+        if (!inicio || !fim || !capacidadeTotal || isNaN(capacidadeTotal)) {
+            alert('Por favor, preencha as datas e o número de pessoas.');
+            return;
+        }
+ 
+        btnPesquisar.disabled = true;
+        btnPesquisar.style.backgroundColor = 'gray';
+        btnPesquisar.textContent = 'Buscando...';
+
+        console.log(`Buscando quartos de ${inicio} até ${fim} para ${capacidadeTotal} pessoas...`);
+ 
+        const result = await listAllRoomRequest({
+            inicio: inicio,
+            fim: fim,
+            capacidadeTotal: capacidadeTotal
+        });
+ 
+        btnPesquisar.disabled = false;
+        btnPesquisar.style.backgroundColor = '';
+        btnPesquisar.textContent = 'Pesquisar';
+ 
+        if (result.ok) {
+            console.log("Quartos Disponíveis Encontrados:", result.raw);
+            alert(`Sucesso! Encontrados ${result.raw.length} quartos.`);
+ 
+        } else {
+            console.error("Erro na busca de quartos:", result.message);
+            alert(`Erro na busca: ${result.message}`);
+        }
+    });
 
     const tituloCard = document.createElement('h1');
     tituloCard.textContent = 'Conheça nossos quartos'

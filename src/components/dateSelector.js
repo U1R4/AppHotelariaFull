@@ -1,3 +1,5 @@
+import {listAllRoomRequest} from "../api/roomsAPI.js";
+
 export default function dateSelector() {
 
     const dateSelectorDiv = document.createElement('div');
@@ -8,7 +10,7 @@ export default function dateSelector() {
     
     const dateSelectorIn = document.createElement('input');
     dateSelectorIn.type = 'date';
-    dateSelectorIn.className = 'card p-4 shadow-lg inputDate';
+    dateSelectorIn.className = 'card p-4 shadow-lg inputDate check-in';
     dateSelectorIn.style.width = '300px';
     dateSelectorIn.style.height = '70px';
     dateSelectorIn.style.maxWidth = '300px';
@@ -17,7 +19,7 @@ export default function dateSelector() {
     
     const dateSelectorOut = document.createElement('input');
     dateSelectorOut.type = 'date';
-    dateSelectorOut.className = 'card p-4 shadow-lg inputDate';
+    dateSelectorOut.className = 'card p-4 shadow-lg inputDate check-out';
     dateSelectorOut.style.width = '300px';
     dateSelectorOut.style.height = '70px';
     dateSelectorOut.style.maxWidth = '300px';
@@ -46,6 +48,7 @@ export default function dateSelector() {
     btnDateReserv.style.fontWeight = '16px';
     btnDateReserv.style.height = '69px';
     btnDateReserv.style.width = '100px';
+
     dateSelectorDiv.appendChild(btnDateReserv)
 
     return dateSelectorDiv;
