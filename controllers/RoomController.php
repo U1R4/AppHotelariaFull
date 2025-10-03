@@ -41,14 +41,8 @@
 
         public static function searchAvailable($conn, $data){
 
-            $inicio = new DateTime($data['inicio']);
-            $fim = new DateTime($data['fim']);
-
-            $inicio->setTime(14, 0, 0);
-            $fim->setTime(12, 0, 0);
-
-            $data['inicio'] = $inicio->format('Y-m-d H:i:s');
-            $data['fim'] = $fim->format('Y-m-d H:i:s');
+            $data['inicio'] = ValidateController::timeInsert($data['inicio'], 14);
+            $data['fim'] = ValidateController::timeInsert($data['fim'], 12);
 
             $dates = [$data['inicio'], $data['fim']];
             $result = RoomModel::searchAvailable($conn, $data);

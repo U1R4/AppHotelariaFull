@@ -1,5 +1,6 @@
 export async function listAllRoomRequest(data) {
     const { inicio, fim, capacidadeTotal } = data;
+    console.log(inicio, fim, capacidadeTotal);
 
     const response = await fetch("api/rooms", {
         method: "POST",
