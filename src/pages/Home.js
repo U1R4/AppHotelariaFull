@@ -56,7 +56,7 @@ export default function renderHomePage() {
  
         if (result.ok) {
             console.log("Quartos Disponíveis Encontrados:", result.raw);
-            // alert(`Sucesso! Encontrados ${result.raw.length} quartos.`);
+            alert(`Sucesso! Encontrados ${result.raw.length} quartos.`);
  
         } else {
             console.error("Erro na busca de quartos:", result.message);

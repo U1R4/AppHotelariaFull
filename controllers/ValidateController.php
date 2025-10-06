@@ -1,7 +1,7 @@
 <?php
-class ValidatorController{
+class ValidateController{
 
-    public static function validate_data($data, $labels){
+    public static function validateData($data, $labels){
         $pendets = [];
         foreach ($labels as $lbl){
             if (!isset($data[$lbl]) && empty($data[$lbl]) ){
@@ -17,7 +17,7 @@ class ValidatorController{
 
     public static function timeInsert($date, $hour){
         $dateHour = new DateTime($date);
-        $dateHour->setTime(hour, 0, 0);
+        $dateHour->setTime($hour, 0, 0);
         return $dateHour->format('Y-m-d H:i:s');
     }
 
