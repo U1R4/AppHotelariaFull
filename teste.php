@@ -12,5 +12,6 @@ $data = [
 ];
 
 // RoomController::searchAvailable($conn ,$data);
-echo "pagina teste";
+
+echo PassController::generateHash("123");
 ?>

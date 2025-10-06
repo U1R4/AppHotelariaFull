@@ -4,28 +4,51 @@
 
     if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $data = json_decode(file_get_contents('php://input'), true);
-        $opcao = $segments[2] ?? null;
         
-        if($opcao === "client"){
-            AuthController::loginClient($conn, $data);
-        }elseif($opcao === "user"){
-            AuthController::loginUser($conn, $data);
-        }else{
+        $email = $data['email'] ?? null;
+        $password = $data['password'] ?? null;
+        $tipo = $data['tipo'] ?? null;
+        
+        if (!$email || !$password) {
             jsonResponse([
-                "status"=> "error",
-                "mensage"=> "Rota nao encontrada"
-            ]);
+                "status" => "error",
+                "message" => "Email e senha são obrigatórios"
+            ], 400);
+            exit;
+        }
+
+        if($tipo === "client"){
+            $check = AuthController::loginClient($conn, $data);
+            
+            if($check !== false && $check !== null){
+                jsonResponse([
+                    "status" => "success",
+                    "token" => $check,
+                    "message" => "Login de cliente bem-sucedido"
+                ], 200);
+                exit;
+            }
         }
         
-    }
-    elseif ($_SERVER['REQUEST_METHOD'] === "PUT"){  
-        validateTokenAPI();
-        jsonResponse(["mensage"=>"Foi"],200);
-
-    }else {
+        $check = AuthController::loginUser($conn, $data);
+        
+        if($check !== false && $check !== null){
+            jsonResponse([
+                "status" => "success", 
+                "token" => $check,
+                "message" => "Login de usuário bem-sucedido"
+            ], 200);
+        } else {
+            jsonResponse([
+                "status" => "error",
+                "message" => "Credenciais inválidas"
+            ], 401);
+        }
+        
+    } else {
         jsonResponse([
-        "status"=>"erro",
-        "message"=>"Metodo não permitido"
+            "status" => "error",
+            "message" => "Método não permitido"
         ], 405);
     }
 ?>
