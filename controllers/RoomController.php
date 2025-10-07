@@ -41,14 +41,13 @@
         }
 
         public static function searchAvailable($conn, $data){
-
             $data['inicio'] = ValidateController::timeInsert($data['inicio'], 14);
             $data['fim'] = ValidateController::timeInsert($data['fim'], 12);
-
+        
             $dates = [$data['inicio'], $data['fim']];
             $result = RoomModel::searchAvailable($conn, $data);
-            
-            return jsonResponse($result);
+
+            return is_array($result) ? $result : [];
         }
     }   
 ?>

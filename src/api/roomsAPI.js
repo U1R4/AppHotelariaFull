@@ -1,40 +1,49 @@
-export async function listAllRoomRequest(data) {
-    const { inicio, fim, capacidadeTotal } = data;
-    console.log(inicio, fim, capacidadeTotal);
-
-    const response = await fetch("api/rooms", {
-        method: "POST",
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            inicio,
-            fim,
-            capacidadeTotal
-        }),
-        credentials: "same-origin"
-    });
-
-    let responseData = null;
-
+export async function listAllRoomRequest(inicio, fim, capacidadeTotal) {
+    const dados = {
+        inicio: inicio,
+        fim: fim,
+        capacidadeTotal: capacidadeTotal
+    };
+    
     try {
-        responseData = await response.json();
-    } catch {
-        responseData = null;
-    }
+        const response = await fetch("api/rooms", {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(dados),
+            credentials: "same-origin"
+        });
+        
+        const responseText = await response.text();
+        
+        let data = null;
+        try {
+            data = JSON.parse(responseText);
+        } catch (error) {
+            data = null;
+        }
 
-    if (!response.ok) {
-        const message = "Resposta inválida do servidor!";
+        if (!response.ok) {
+            const message = data?.message || "Resposta inválida do servidor!";
+            return {
+                ok: false, 
+                raw: data, 
+                message: message
+            };
+        }
+
         return {
-            ok: false, 
-            raw: responseData, 
-            message
+            ok: true,
+            raw: data
+        };
+
+    } catch (error) {
+        return {
+            ok: false,
+            raw: null,
+            message: `Erro de rede: ${error.message}`
         };
     }
-
-    return {
-        ok: true,
-        raw: responseData
-    };
 }

@@ -1,18 +1,21 @@
-export default function Card() {
+export default function Card(quarto, index) {
     const card = document.createElement('div');
     card.className = 'containerCard';
     card.innerHTML = 
     `
-    <div style = "display: flex; flex-direction: column;">
-    <div class="card" style="width: 18rem;">
-  
-        <img src="public/assets/images/Minimalist-carrocel.jpg" class="card-img-top" alt="...">
+    <div style="display: flex; flex-direction: column;">
+        <div class="card" style="width: 18rem;">
+            <img src="public/assets/images/Minimalist-carrocel.jpg" class="card-img-top" alt="${quarto.nome}">
             <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
+                <h5 class="card-title">${quarto.nome}</h5>
+                <p class="card-text">
+                    <strong>Número:</strong> ${quarto.numero}<br>
+                    <strong>Capacidade:</strong> ${quarto.capacidadeTotal} pessoas<br>
+                    <strong>Preço:</strong> R$ ${quarto.preco}
+                </p>
                 <a href="#" class="btn btn-primary">Reservar</a>
             </div>
-    </div>
+        </div>
     </div>
     `;
 

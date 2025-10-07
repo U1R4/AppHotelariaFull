@@ -26,41 +26,49 @@ export default function renderHomePage() {
     const dateSelectorOut = datesSelector.querySelector('.check-out');
     const guestsAmount = datesSelector.querySelector('select');
 
+    const cardDiv = document.createElement('div');
+    cardDiv.style.display ='grid';
+    cardDiv.style.gridTemplateColumns ='auto auto auto auto auto';
+    cardDiv.className = 'cards';
+    cardDiv.style.gap = '15px';
+
     btnPesquisar.addEventListener("click", async (e) => {
         e.preventDefault();
- 
+    
         const inicio = dateSelectorIn.value;
         const fim = dateSelectorOut.value;
         const capacidadeTotal = parseInt(guestsAmount.value, 10);
- 
+    
         if (!inicio || !fim || !capacidadeTotal || isNaN(capacidadeTotal)) {
             alert('Por favor, preencha as datas e o número de pessoas.');
             return;
         }
- 
+    
+        if(inicio > fim){
+            alert('A data do Check-in não pode ser maior que a do Check-out');
+            return;
+        }
+    
         btnPesquisar.disabled = true;
         btnPesquisar.style.backgroundColor = 'gray';
         btnPesquisar.textContent = 'Buscando...';
-
-        console.log(`Buscando quartos de ${inicio} até ${fim} para ${capacidadeTotal} pessoas...`);
- 
-        const result = await listAllRoomRequest({
-            inicio: inicio,
-            fim: fim,
-            capacidadeTotal: capacidadeTotal
-        });
- 
+    
+        const result = await listAllRoomRequest(inicio, fim, capacidadeTotal);
+    
         btnPesquisar.disabled = false;
         btnPesquisar.style.backgroundColor = '';
         btnPesquisar.textContent = 'Pesquisar';
- 
-        if (result.ok) {
-            console.log("Quartos Disponíveis Encontrados:", result.raw);
-            alert(`Sucesso! Encontrados ${result.raw.length} quartos.`);
- 
-        } else {
-            console.error("Erro na busca de quartos:", result.message);
-            alert(`Erro na busca: ${result.message}`);
+        
+        if(result.ok){
+            cardDiv.innerHTML='';
+            const quartosArray = result.raw;
+            
+            if (quartosArray && quartosArray.length > 0) {
+                quartosArray.forEach((quarto, index) => {
+                    const card = Card(quarto, index);
+                    cardDiv.appendChild(card);
+                });
+            }
         }
     });
 
@@ -79,16 +87,7 @@ export default function renderHomePage() {
     subTituloCard.style.textAlign = 'center';
     divRoot.appendChild(subTituloCard);
 
-    const cardDiv = document.createElement('div');
-    cardDiv.style.display ='grid';
-    cardDiv.style.gridTemplateColumns ='auto auto auto auto auto';
-    cardDiv.className = 'cards';
-    cardDiv.style.gap = '15px';
 
-    for(var i=0; i < 5; i++){
-        const card = Card();
-        cardDiv.appendChild(card);
-    }
 
     divRoot.appendChild(cardDiv);
 

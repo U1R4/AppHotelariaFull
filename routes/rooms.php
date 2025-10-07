@@ -10,7 +10,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
         RoomController::listAll($conn);
     }
 
-
 }elseif ($_SERVER['REQUEST_METHOD'] === "DELETE"){
     $data = json_decode(file_get_contents('php://input'), true);
     $id =  $data['id'];
@@ -21,14 +20,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
         jsonResponse(['message'=>"ID necessario"], 400);
     }
 
-
 }elseif ($_SERVER['REQUEST_METHOD'] === "POST"){  
     $data = json_decode(file_get_contents('php://input'), true);
 
-    $dates = [$data['inicio'], $data['fim']];
-
-    if(isset($dates)){
-        RoomController::searchAvailable($conn, $data);
+    if(isset($data['inicio']) && isset($data['fim'])){
+        $result = RoomController::searchAvailable($conn, $data);
+        jsonResponse($result);
     }elseif($data){
         RoomController::create($conn, $data);
     }else{
@@ -37,10 +34,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
     
 
 }elseif ($_SERVER['REQUEST_METHOD'] === "PUT"){  
-    $id =  $data['id'];
     $data = json_decode(file_get_contents('php://input'), true);
+    $id =  $data['id'] ?? null;
     
-    if(isset($data)){
+    if(isset($data) && isset($id)){
         RoomController::update($conn, $id, $data);
     }else{
         jsonResponse(['message'=>"Atributos invalidos"], 400);
