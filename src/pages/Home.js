@@ -19,12 +19,17 @@ export default function renderHomePage() {
     divRoot.appendChild(hero);
 
     const datesSelector = dateSelector();
-    divRoot.appendChild(datesSelector);
+    divRoot.appendChild(datesSelector.container);
 
-    const btnPesquisar = datesSelector.querySelector('button');
-    const dateSelectorIn = datesSelector.querySelector('.check-in');
-    const dateSelectorOut = datesSelector.querySelector('.check-out');
-    const guestsAmount = datesSelector.querySelector('select');
+    const {
+        btnPesquisar,
+        dateSelectorIn,
+        dateSelectorOut,
+        guestsAmount,
+        errorCheckIn,
+        errorCheckOut,
+        errorGuests
+    } = datesSelector.elements;
 
     const cardDiv = document.createElement('div');
     cardDiv.style.display ='grid';
@@ -38,16 +43,32 @@ export default function renderHomePage() {
         const inicio = dateSelectorIn.value;
         const fim = dateSelectorOut.value;
         const capacidadeTotal = parseInt(guestsAmount.value, 10);
+
+        clearErrors();
     
-        if (!inicio || !fim || !capacidadeTotal || isNaN(capacidadeTotal)) {
-            alert('Por favor, preencha as datas e o número de pessoas.');
-            return;
+        let hasError = false;
+    
+        if (!inicio) {
+            showError(errorCheckIn, dateSelectorIn, 'Data de Check-in é obrigatória');
+            hasError = true;
         }
     
-        if(inicio > fim){
-            alert('A data do Check-in não pode ser maior que a do Check-out');
-            return;
+        if (!fim) {
+            showError(errorCheckOut, dateSelectorOut, 'Data de Check-out é obrigatória');
+            hasError = true;
         }
+    
+        if (inicio && fim && new Date(inicio) >= new Date(fim)) {
+            showError(errorCheckIn, dateSelectorIn, 'Check-in deve ser antes do Check-out');
+            hasError = true;
+        }
+    
+        if (!capacidadeTotal || isNaN(capacidadeTotal) || capacidadeTotal <= 0) {
+            showError(errorGuests, guestsAmount, 'Quantidade de pessoas é obrigatória');
+            hasError = true;
+        }
+    
+        if (hasError) return;
     
         btnPesquisar.disabled = true;
         btnPesquisar.style.backgroundColor = 'gray';
@@ -72,6 +93,21 @@ export default function renderHomePage() {
         }
     });
 
+    function showError(errorElement, inputElement, message) {
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
+        inputElement.style.borderColor = '#dc3545';
+    }
+
+    function clearErrors() {
+        [errorCheckIn, errorCheckOut, errorGuests].forEach(error => {
+            error.style.display = 'none';
+        });
+        [dateSelectorIn, dateSelectorOut, guestsAmount].forEach(input => {
+            input.style.borderColor = '';
+        });
+    }
+
     const tituloCard = document.createElement('h1');
     tituloCard.textContent = 'Conheça nossos quartos'
     tituloCard.className = 'titulo';
@@ -86,8 +122,6 @@ export default function renderHomePage() {
     subTituloCard.style.fontSize = '18px';
     subTituloCard.style.textAlign = 'center';
     divRoot.appendChild(subTituloCard);
-
-
 
     divRoot.appendChild(cardDiv);
 
