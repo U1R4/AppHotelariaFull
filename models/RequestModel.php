@@ -1,5 +1,6 @@
 <?php
 require_once "RoomModel.php";
+require_once "ReserveModel.php";
 
 class RequestModel{
 
@@ -82,6 +83,8 @@ class RequestModel{
                     $reserves[] = "Quarto {$id} indisponivel";
                     continue;
                 }
+
+                
                 
             }
 
