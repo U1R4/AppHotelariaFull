@@ -13,20 +13,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 
 }elseif ($_SERVER['REQUEST_METHOD'] === "POST"){  
     $data = json_decode(file_get_contents('php://input'), true);
-    
-    if(isset($data)){
-        $validateInfo = ValidateController::validate('Request', $data)
-    
-        if($validateInfo('true')){
-            RequestController::create($conn, $data);
-        }else{
-            jsonResponse(['message'=>"Atributos invalidos"], 400);
-        }
-    
+    $opcao = $segments[2] ?? null;
+
+    if ($opcao == "reservation"){
+        RequestController::createOrder($conn, $data);
+
+    }elseif($opcao == null){
+        RequestController::create($conn, $data);
+
     }else{
         jsonResponse(['message'=>"Atributos invalidos"], 400);
     }
-
+       
 }elseif ($_SERVER['REQUEST_METHOD'] === "DELETE"){
     $data = json_decode(file_get_contents('php://input'), true);
     $id =  $data['id'];
