@@ -82,6 +82,7 @@ class RequestModel{
                     $reserves[] = "Quarto {$id} indisponivel";
                     continue;
                 }
+                
             }
 
 
