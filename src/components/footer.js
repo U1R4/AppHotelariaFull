@@ -1,6 +1,5 @@
 export default function Footer() {
   const footer = document.createElement('div');
-  /*Incorporar os arquivos no inner html*/
 
   footer.innerHTML = `
     <!-- Footer -->

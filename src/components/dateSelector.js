@@ -1,4 +1,14 @@
 export default function dateSelector() {
+    function getTodayDateISO() {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0'); 
+        const day = String(today.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    const todayISO = getTodayDateISO();
+
     const dateSelectorDiv = document.createElement('div');
     dateSelectorDiv.style.display = 'flex';
     dateSelectorDiv.style.zIndex = '100';
@@ -17,6 +27,7 @@ export default function dateSelector() {
     dateSelectorIn.style.height = '70px';
     dateSelectorIn.style.maxWidth = '300px';
     dateSelectorIn.style.maxHeight = '70px';
+    dateSelectorIn.min = todayISO;
     checkInContainer.appendChild(dateSelectorIn);
 
     const errorCheckIn = document.createElement('div');
@@ -42,7 +53,24 @@ export default function dateSelector() {
     dateSelectorOut.style.height = '70px';
     dateSelectorOut.style.maxWidth = '300px';
     dateSelectorOut.style.maxHeight = '70px';
+    dateSelectorOut.min = todayISO;
     checkOutContainer.appendChild(dateSelectorOut);
+
+    // Validação corrigida: check-out não pode ser no mesmo dia do check-in
+    dateSelectorIn.addEventListener('change', function() {
+        if (this.value) {
+            const checkInDate = new Date(this.value);
+            // Adiciona 1 dia para garantir que check-out seja pelo menos 1 dia depois
+            checkInDate.setDate(checkInDate.getDate() + 1);
+            const minCheckOut = `${checkInDate.getFullYear()}-${String(checkInDate.getMonth() + 1).padStart(2, '0')}-${String(checkInDate.getDate()).padStart(2, '0')}`;
+            dateSelectorOut.min = minCheckOut;
+            
+            // Se o check-out atual for no mesmo dia ou antes do check-in, limpa o valor
+            if (dateSelectorOut.value && new Date(dateSelectorOut.value) <= new Date(this.value)) {
+                dateSelectorOut.value = '';
+            }
+        }
+    });
 
     const errorCheckOut = document.createElement('div');
     errorCheckOut.className = 'error-message';

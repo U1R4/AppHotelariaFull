@@ -2,6 +2,7 @@ import Hero from "../components/Hero.js";
 import Navbar from "../components/Navbar.js";
 import Footer from "../components/footer.js";
 import Card from "../components/RoomCard.js";
+import CardLounge from "../components/CardLounge.js";
 import dateSelector from "../components/dateSelector.js";
 import { listAllRoomRequest } from "../api/roomsAPI.js";
 
@@ -36,6 +37,9 @@ export default function renderHomePage() {
     cardDiv.style.gridTemplateColumns ='auto auto auto auto auto';
     cardDiv.className = 'cards';
     cardDiv.style.gap = '15px';
+
+
+ 
 
     btnPesquisar.addEventListener("click", async (e) => {
         e.preventDefault();
@@ -108,22 +112,35 @@ export default function renderHomePage() {
         });
     }
 
-    const tituloCard = document.createElement('h1');
-    tituloCard.textContent = 'Conheça nossos quartos'
-    tituloCard.className = 'titulo';
-    tituloCard.style.fontSize = '24px';
-    tituloCard.style.textAlign = 'center';
-    tituloCard.style.marginTop = '3%';
-    divRoot.appendChild(tituloCard)
- 
-    const subTituloCard = document.createElement('h2');
-    subTituloCard.textContent = 'O melhor local para se hospedar traquilamente aqui nas Maldivas.'
-    subTituloCard.className = 'subTitulo';
-    subTituloCard.style.fontSize = '18px';
-    subTituloCard.style.textAlign = 'center';
-    divRoot.appendChild(subTituloCard);
-
     divRoot.appendChild(cardDiv);
+
+
+
+    const tituloLounge = document.createElement('h1');
+    tituloLounge.textContent = 'Nossa infraestrutura'
+    tituloLounge.className = 'titulo';
+    tituloLounge.style.fontSize = '28px';
+    tituloLounge.style.textAlign = 'center';
+    tituloLounge.style.marginTop = '2%';
+    divRoot.appendChild(tituloLounge);
+
+    const cardLoungeDiv = document.createElement('div');
+    cardLoungeDiv.className = 'cardLoungeDiv';
+    cardLoungeDiv.style.marginTop = '2%';
+    divRoot.appendChild(cardLoungeDiv);
+
+    const loungeItems = [
+        {path: "banheira-de-hidromassagem.jpg", title: "Restaurante", text: "Nosso restaurante é um espaço agradavel e familiar!"},
+        {path: "melhores-piscinas-luxo.jpg", title: "SPA", text: "Nosso SPA é ideal para momentos de relaxamento!"},
+        {path: "bar.jpg", title: "Bar", text: "Nosso bar oferece drinks sem metanol, confia!"}
+    ];   
+    
+    for (let i = 0; i < loungeItems.length; i++) {
+        const cardLoungeElement = CardLounge (loungeItems[i], i);
+        cardLoungeDiv.appendChild(cardLoungeElement);
+    }
+
+    
 
     const footer = document.getElementById('footer');
     footer.innerHTML = '';
