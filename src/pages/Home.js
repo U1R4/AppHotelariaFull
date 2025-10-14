@@ -38,9 +38,6 @@ export default function renderHomePage() {
     cardDiv.className = 'cards';
     cardDiv.style.gap = '15px';
 
-
- 
-
     btnPesquisar.addEventListener("click", async (e) => {
         e.preventDefault();
     
@@ -140,7 +137,7 @@ export default function renderHomePage() {
         cardLoungeDiv.appendChild(cardLoungeElement);
     }
 
-    
+
 
     const footer = document.getElementById('footer');
     footer.innerHTML = '';
