@@ -64,10 +64,10 @@ class RequestModel{
         $conn->begin_trasaction(MYSQLY_TRANS_START_READ_WRITE);
 
         try {
-            $order_id = self::create($conn,[
-            "cliente_id" => $cliente_id,
-            "pagamento" => $pagamento,
-            "usuario_id" => $usuario_id
+            $order_id = self::create($conn, [
+                "cliente_id" => $cliente_id,
+                "pagamento" => $pagamento,
+                "usuario_id" => $usuario_id
             ]);
 
             if(!$order_id){
@@ -84,16 +84,41 @@ class RequestModel{
                     continue;
                 }
 
+                if(ReserveModel::getAvaibleOrder($conn, $fkQuarto, $inicio, $fim)){
+                    $reserves[] = "Quarto {$id} indisponivel";
+                    continue;
+                }   
                 
-                
+                $reserverResult = ReserveModel::create($conn,[
+                    "pedido_id" => $order_id,
+                    "quarto_id" => $id,
+                    "adicional_id" => 2,
+                    "fim" => $fim,
+                    "inicio" => $inicio,
+                ]);
+                $reservate = true;
+                $reserves[] = [
+                    "reserva_id" => $conn->insert_id,
+                    "quarto_id" => $id
+                ];
+            }
+                if ($reservate == true) {
+                    $conn->commit();
+                    return [
+                        "pedido_id" => $order_id,
+                        "reservas" => $reserves,
+                        "messagem" => "Reservas criadas com sucesso!!"
+                    ];
+                } else {
+                    throw new RuntimeException("Pedido nao realizado, nenhum quarto reservado");
+                }
             }
 
 
-        } catch (\Throwable $th) {
+        } catch (\Throwable $th){
             try{$conn->rollback();} catch(\Throwable $th2){}
             
             throw $th;
         }
     }
-}
 ?>

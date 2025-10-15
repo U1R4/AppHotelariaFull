@@ -1,87 +1,125 @@
 import Form from "../components/Form.js";
 import Navbar from "../components/Navbar.js";
 import Footer from "../components/footer.js";
+import {createRoom} from "../api/roomsAPI.js";
 
 export default function renderRoomPage() {
     const nav = document.getElementById('navbar');
     nav.innerHTML = '';
-        
+    
     const navbar = Navbar();
     nav.appendChild(navbar);
 
     const formulario = Form();
-
-    const titulo = formulario.querySelector('h1');
-    titulo.textContent = "Cadastrar um quarto";
-
-    const btnRegister = formulario.querySelector('button');
-    btnRegister.textContent = 'Cadastrar';
-    btnRegister.type = 'submit';
-
     const contentForm = formulario.querySelector('form');
 
-    const inputNome = document.createElement('input');
-    inputNome.type = 'text';
-    inputNome.placeholder = "Digite o nome";
+    const titulo = document.querySelector('h1');
+    titulo.textContent = "Cadastrar um novo quarto";
+    titulo.style.textAlign = 'center';
+    titulo.style.marginBottom = '20px';
+    contentForm.insertBefore(titulo, contentForm.firstChild);
 
-    const inputEmail = formulario.querySelector('input[type="email"]');
-    contentForm.insertBefore(inputNome, inputEmail);
+    const inputs = contentForm.querySelectorAll('input');
+    const nome = inputs[0];
+    const numero = inputs[1];
 
-    const conSenha = document.createElement('input');
-    conSenha.type = 'password';
-    conSenha.placeholder = "Confirme sua senha";
-    contentForm.insertBefore(conSenha, contentForm.children[3]);
+    nome.type = "text";
+    nome.placeholder = "Nome do quarto";
+    nome.className = "InputNome";
 
-    const spanErroSenha = document.createElement('span');
+    numero.type = "text";
+    numero.placeholder = "Número do quarto";
+    numero.className = "InputNumero";
 
-    const inputCpf = document.createElement('input');
-    inputCpf.type = 'text';
-    inputCpf.placeholder = "Digite seu CPF";
+    const qtdCamaCasal = document.createElement('input');
+    qtdCamaCasal.placeholder = "Quantidade de camas de casal";
+    qtdCamaCasal.className = "InputCamaCasal";
+    qtdCamaCasal.type = "number";
+    qtdCamaCasal.min = "0";
+    contentForm.insertBefore(qtdCamaCasal, numero.nextSibling);
 
-    contentForm.insertBefore(spanErroSenha, contentForm.children[4]);
+    const qtdCamaSolteiro = document.createElement('input');
+    qtdCamaSolteiro.placeholder = "Quantidade de camas de solteiro";
+    qtdCamaSolteiro.className = "InputCamaSolteiro";
+    qtdCamaSolteiro.type = "number";
+    qtdCamaSolteiro.min = "0";
+    contentForm.insertBefore(qtdCamaSolteiro, qtdCamaCasal.nextSibling);
 
-    contentForm.insertBefore(inputCpf, contentForm.children[5]);
+    const preco = document.createElement('input');
+    preco.placeholder = "Preço por noite em R$";
+    preco.className = "InputPreco";
+    preco.type = "number";
+    preco.step = "0.01";
+    preco.min = "0";
+    contentForm.insertBefore(preco, qtdCamaSolteiro.nextSibling);
 
-    const inputTelefone = document.createElement('input');
-    inputTelefone.type = 'text';
-    inputTelefone.placeholder = "Digite seu Telefone";
-    contentForm.insertBefore(inputTelefone, contentForm.children[6]);
+    const selectDisponivel = document.createElement('select');
+    selectDisponivel.className = 'form-select';
 
-    const inputSenha = contentForm.querySelector('input[type="password"]');
+    const optionDefault = document.createElement('option');
+    optionDefault.textContent = 'Disponibilidade';
+    optionDefault.value = '';
+    optionDefault.disabled = true;
+    optionDefault.selected = true;
+    selectDisponivel.appendChild(optionDefault);
+    
+    const optionSim = document.createElement('option');
+    optionSim.textContent = 'Sim';
+    optionSim.value = 'true';
+    selectDisponivel.appendChild(optionSim);
+    
+    const optionNao = document.createElement('option');
+    optionNao.textContent = 'Não';
+    optionNao.value = 'false';
+    selectDisponivel.appendChild(optionNao);
+
+    contentForm.insertBefore(selectDisponivel, preco.nextSibling);
+
+    const btnRegister = contentForm.querySelector('button');
+    btnRegister.textContent = 'Cadastrar Quarto';
+
+    const inputNome = contentForm.querySelector('.InputNome');
+    const inputNumero = contentForm.querySelector('.InputNumero');
+    const inputCamaCasal = contentForm.querySelector('.InputCamaCasal');
+    const inputCamaSolteiro = contentForm.querySelector('.InputCamaSolteiro');
+    const inputPreco = contentForm.querySelector('.InputPreco');
+    const inputDisponivel = contentForm.querySelector('.form-select');
 
     contentForm.addEventListener("submit", async (e) => {
         e.preventDefault();
+
         const nome = inputNome.value.trim();
-        const email = inputEmail.value.trim();
-        const senha = inputSenha.value.trim();
-        const confirmaSenha = conSenha.value.trim();
-        const cpf = inputCpf.value.trim();
-        const telefone = inputTelefone.value.trim();
-
-        if(senha !== confirmaSenha) {
-            spanErroSenha.textContent = 'As senhas não conferem!'
-            spanErroSenha.style.color = 'red';
-            spanErroSenha.style.fontSize = '14px';
-            conSenha.style.borderBottom = '1px solid red';
-            return;
-        } 
-
-        spanErroSenha.textContent = '';
-        spanErroSenha.style.color = '';
-        conSenha.style.borderBottom = '';
+        const numero = inputNumero.value.trim();
+        const qnt_cama_casal = parseInt(inputCamaCasal.value.trim());
+        const qnt_cama_solteiro = parseInt(inputCamaSolteiro.value.trim());
+        const preco = parseFloat(inputPreco.value.trim());
+        const disponivel = inputDisponivel.value.trim();
 
         try {
-            const result = await createClient(nome, cpf, telefone, email, senha);
-        } catch {
-            console.log("Erro Inesperado");
-        } 
-    });
+            const result = await createRoom(
+                nome,
+                numero,
+                qnt_cama_casal,
+                qnt_cama_solteiro,
+                preco,
+                disponivel
+            );
+            
+            if (result.ok) {
+                alert("Quarto " + nome + " cadastrado com sucesso!");
+                contentForm.reset();
+            } else {
+                alert("Erro ao cadastrar quarto: " + result.message);
+            }
 
-    console.log("Elemento Form sendo monitorado:", contentForm);
+        } catch (error) {
+            alert("Falha ao tentar cadastrar: Erro de comunicação.");
+        }
+    });
 
     const footer = document.getElementById('footer');
     footer.innerHTML = '';
-
+    
     const footers = Footer();
     footer.appendChild(footers);
 }

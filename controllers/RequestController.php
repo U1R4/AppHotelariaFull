@@ -49,11 +49,20 @@ class RequestController{
         
         foreach($data['quartos'] as $index => $quartos){
             ValidateController::validateData($quartos,['id', 'inicio', 'fim']);
-            // ValidateController::timeInsert($quartos['inicio'], 12);
-            // ValidateController::timeInsert($quartos['fim'], 14);
+            ValidateController::timeInsert($quartos['inicio'], 12);
+            ValidateController::timeInsert($quartos['fim'], 14);
         }
         if (count($data['quartos']) == 0) {
             jsonResponse(["message"=>"nao tem quartos no pedido"],400);
+        }
+
+        try {
+            $result = RequestModel::createOrder($conn,$data);
+            return jsonResponse(['message' => 'erro ao criar a reserva']);
+
+        } catch (RunTimeExcaption $erro) {
+            return jsonResponse(['message' => 'nao foi possivel criar a reserva' $erro]);
+            
         }
     }
     

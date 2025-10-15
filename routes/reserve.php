@@ -2,14 +2,20 @@
 require_once __DIR__ . "/../controllers/ReserveController.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET'){
+
     $pedido_id =  $segments[2] ?? null;
-    ReserveController::searchByRequest($conn, $pedido_id);
- 
+
+        if (isset($fk_pedidos)) {
+        ReserveController::searchByRequest($conn, $pedido_id);    
+    } else {
+        jsonResponse(["message"=>"Atributos Invalidos!"], 400);
+    }
+
 }elseif ($_SERVER['REQUEST_METHOD'] === "POST"){  
     $data = json_decode(file_get_contents('php://input'), true);
     
     if(isset($data)){
-        ReserveController::create($conn, $data);
+        ReserveController::createOrder($conn, $data);
     }else{
         jsonResponse(['message'=>"Atributos invalidos"], 400);
     }
