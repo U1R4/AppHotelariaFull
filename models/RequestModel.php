@@ -61,7 +61,7 @@ class RequestModel{
         $reserves = [];
         $reservate = false;
 
-        $conn->begin_trasaction(MYSQLY_TRANS_START_READ_WRITE);
+        $conn->begin_transaction(MYSQLY_TRANS_START_READ_WRITE);
 
         try {
             $order_id = self::create($conn, [
@@ -102,23 +102,21 @@ class RequestModel{
                     "quarto_id" => $id
                 ];
             }
-                if ($reservate == true) {
-                    $conn->commit();
-                    return [
-                        "pedido_id" => $order_id,
-                        "reservas" => $reserves,
-                        "messagem" => "Reservas criadas com sucesso!!"
-                    ];
-                } else {
-                    throw new RuntimeException("Pedido nao realizado, nenhum quarto reservado");
-                }
+            if ($reservate == true) {
+                $conn->commit();
+                return [
+                    "pedido_id" => $order_id,
+                    "reservas" => $reserves,
+                    "messagem" => "Reservas criadas com sucesso!!"
+                ];
+            } else {
+                throw new RuntimeException("Pedido nao realizado, nenhum quarto reservado");
             }
-
-
-        } catch (\Throwable $th){
+        }catch (\Throwable $th){
             try{$conn->rollback();} catch(\Throwable $th2){}
             
             throw $th;
         }
     }
+}
 ?>

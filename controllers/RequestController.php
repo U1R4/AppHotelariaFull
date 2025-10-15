@@ -43,7 +43,7 @@ class RequestController{
     }
 
     public static function createOrder($conn, $data){
-        $usuario_id = isset($data['usuario_id']) ? $data['usuario_id']: null;
+        $data['usuario_id'] = isset($data['usuario_id']) ? $data['usuario_id']: null;
 
         ValidateController::validateData($data,['clientId','pagamento','quartos']);       
         
@@ -57,11 +57,11 @@ class RequestController{
         }
 
         try {
-            $result = RequestModel::createOrder($conn,$data);
-            return jsonResponse(['message' => 'erro ao criar a reserva']);
+            // $result = RequestModel::createOrder($conn,$data);
+            return jsonResponse(['message' =>  $result]);
 
         } catch (RunTimeExcaption $erro) {
-            return jsonResponse(['message' => 'nao foi possivel criar a reserva' $erro]);
+            return jsonResponse(['message' => $erro->getMessage()], 500);
             
         }
     }
