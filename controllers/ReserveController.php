@@ -2,6 +2,7 @@
 require_once __DIR__ . "/../models/ReserveModel.php";
 require_once __DIR__ . "/../models/RequestModel.php";
 require_once __DIR__ . "/ValidateController.php";
+require_once __DIR__ . "/RequestController.php";
 
 class ReserveController{
     public static function create($conn, $data) {
@@ -25,20 +26,19 @@ class ReserveController{
         return jsonResponse($reservation);
     }
 
-   public static function isReserved($conn, $fkQuarto, $inicio, $fim) {
+    public static function isReserved($conn, $id, $inicio, $fim) {
         $inicio = ValidateController::timeInsert($inicio, 14);
         $fim = ValidateController::timeInsert($fim, 12);
 
-        $isReserved = ReserveModel::getAvaibleOrder($conn, $fkQuarto, $inicio, $fim);
+        $isReserved = ReserveModel::getAvaibleOrder($conn, $id, $inicio, $fim);
         if ($isReserved) {
             return jsonResponse(['message' => 'Existe uma reserva para este quarto neste período.']);
         } else {
             return jsonResponse(['message' => 'Não Existe reserva. O quarto está disponível.']);
         }
     } 
-   public static function createOrder($conn,$data){
-        $result = RequestModel::createOrder($conn, $data);
-
-   }
+    public static function createOrder($conn,$data){
+        $result = RequestController::createOrder($conn, $data);
+    }
 }
 ?>

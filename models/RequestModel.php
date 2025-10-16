@@ -61,7 +61,7 @@ class RequestModel{
         $reserves = [];
         $reservate = false;
 
-        $conn->begin_transaction(MYSQLY_TRANS_START_READ_WRITE);
+        $conn->begin_transaction(MYSQLI_TRANS_START_READ_WRITE);
 
         try {
             $order_id = self::create($conn, [
@@ -84,7 +84,7 @@ class RequestModel{
                     continue;
                 }
 
-                if(ReserveModel::getAvaibleOrder($conn, $fkQuarto, $inicio, $fim)){
+                if(ReserveModel::getAvaibleOrder($conn, $id, $inicio, $fim)){
                     $reserves[] = "Quarto {$id} indisponivel";
                     continue;
                 }   
@@ -92,17 +92,20 @@ class RequestModel{
                 $reserverResult = ReserveModel::create($conn,[
                     "pedido_id" => $order_id,
                     "quarto_id" => $id,
-                    "adicional_id" => 2,
+                    "adicional_id" => 1,
                     "fim" => $fim,
                     "inicio" => $inicio,
                 ]);
-                $reservate = true;
-                $reserves[] = [
-                    "reserva_id" => $conn->insert_id,
-                    "quarto_id" => $id
-                ];
+
+                if($reserverResult){
+                    $reservate = true;
+                    $reserves[] = [
+                        "reserva_id" => $conn->insert_id,
+                        "quarto_id" => $id
+                    ];
+                }
             }
-            if ($reservate == true) {
+            if ($reservate) {
                 $conn->commit();
                 return [
                     "pedido_id" => $order_id,

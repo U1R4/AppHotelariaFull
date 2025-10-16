@@ -22,7 +22,7 @@ class ReserveModel{
         return $stmt->execute();
     }
 
-    public static function getAvaibleOrder($conn, $fkQuarto, $inicio, $fim) {
+    public static function getAvaibleOrder($conn, $id, $inicio, $fim) {
         $sql =
         "
         SELECT
@@ -30,7 +30,7 @@ class ReserveModel{
         FROM
             reservas
         WHERE
-            fk_quartos = ? AND
+            quarto_id = ? AND
             (
                 inicio < ? AND fim > ?
             )
@@ -39,7 +39,7 @@ class ReserveModel{
         $stmt = $conn->prepare($sql);
         $stmt->bind_param(
             "iss",
-            $fkQuarto,
+            $id,
             $fim,
             $inicio
         );  
