@@ -15,11 +15,8 @@ export default function CardLounge(cardLoungeItem, index) {
             style="height: 10rem; object-fit: cover;"  
         >
         <div class="btn-group dropup">
-            <button type="button" class="btn" data-bs-toggle="dropdown"
-                aria-expanded="false" style="border: none;"> 
-                
-                <img src="public/assets/images/caret-up-fill.svg" style="width: 20px; height: 20px;">
-                
+            <button type="button" class="btnLounge btn" data-bs-toggle="dropdown"
+                aria-expanded="false" style="border: none;">               
                 <h3 class="card-text" style="font-size: 1rem; font-weight: 700;">${title}</h3>
             </button>
             
