@@ -9,7 +9,7 @@ class UploadController(){
     
     static $path = __DIR__ . "/../uploads/";
 
-    public static function normalizePictures($img){
+    public static function normalizeImg($img){
         $files[];
 
         if(is_array($pictures["name"])){
