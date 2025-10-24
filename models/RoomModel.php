@@ -3,15 +3,21 @@ class RoomModel{
     public static function create($conn, $data) {
         $sql = "INSERT INTO quartos (nome, numero, qnt_cama_casal, qnt_cama_solteiro, preco, disponivel) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
+        $disponivel = filter_var($data["disponivel"], FILTER_VALIDATE_BOOLEAN);
         $stmt->bind_param("siiidi",
             $data["nome"],
             $data["numero"],
             $data["qnt_cama_casal"],
             $data["qnt_cama_solteiro"],
             $data["preco"],
-            $data["disponivel"]
+            $disponivel
         );
-        return $stmt->execute();
+        
+        if ($stmt->execute()) {
+            return $conn->insert_id;
+        } else {
+            return false;
+        }
     }
 
     public static function getAll($conn) {
@@ -38,13 +44,14 @@ class RoomModel{
     public static function update($conn, $id, $data) {
         $sql = "UPDATE quartos SET nome=?, numero=?, qnt_cama_casal=?, qnt_cama_solteiro=?, preco=?, disponivel=? WHERE id= ?";
         $stmt = $conn->prepare($sql);
+        $disponivel = filter_var($data["disponivel"], FILTER_VALIDATE_BOOLEAN);
         $stmt->bind_param("siiidii",
             $data["nome"],
             $data["numero"],
             $data["qnt_cama_casal"],
             $data["qnt_cama_solteiro"],
             $data["preco"],
-            $data["disponivel"],
+            $disponivel,
             $id
         );
         return $stmt->execute();

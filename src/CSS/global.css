@@ -166,6 +166,7 @@ a {
     text-align: center;
     width: 300px;
     z-index: 10000;
+    margin-bottom: 5px;
 }
 
 .input-error {

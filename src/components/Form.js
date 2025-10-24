@@ -6,7 +6,7 @@ export default function Form(){
     const container = document.createElement('div');
     container.className = 'card p-4 shadow-lg containerDiv';
     container.style.width = '100%';
-    container.style.maxWidth = '360px';
+    container.style.maxWidth = '460px';
     divRoot.appendChild(container);
 
     const titulo = document.createElement('h1');
