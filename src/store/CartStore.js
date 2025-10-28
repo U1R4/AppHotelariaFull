@@ -15,7 +15,7 @@ export function getCart() {
 
 }
 
-export function addItemToHotel_Cart(item) {
+export function addItemToHotelCart(item) {
     const hotel_cart = getCart();
     hotel_cart.items.push(item);
     setCart(hotel_cart);
@@ -23,7 +23,7 @@ export function addItemToHotel_Cart(item) {
 
 }
 
-export function removeItemFromHotel_Cart(i) {
+export function removeItemFromHotelCart(i) {
     const hotel_cart = getCart();
     hotel_cart.items.splice(i, 1);
     setCart(hotel_cart);

@@ -22,6 +22,7 @@ export default function dateSelector() {
     
     const dateSelectorIn = document.createElement('input');
     dateSelectorIn.type = 'date';
+    dateSelectorIn.id = 'check-in';
     dateSelectorIn.className = 'card p-4 shadow-lg inputDate check-in';
     dateSelectorIn.style.width = '300px';
     dateSelectorIn.style.height = '70px';
@@ -48,6 +49,7 @@ export default function dateSelector() {
     
     const dateSelectorOut = document.createElement('input');
     dateSelectorOut.type = 'date';
+    dateSelectorOut.id = 'check-out';
     dateSelectorOut.className = 'card p-4 shadow-lg inputDate check-out';
     dateSelectorOut.style.width = '300px';
     dateSelectorOut.style.height = '70px';
@@ -56,16 +58,13 @@ export default function dateSelector() {
     dateSelectorOut.min = todayISO;
     checkOutContainer.appendChild(dateSelectorOut);
 
-    // Validação corrigida: check-out não pode ser no mesmo dia do check-in
     dateSelectorIn.addEventListener('change', function() {
         if (this.value) {
             const checkInDate = new Date(this.value);
-            // Adiciona 1 dia para garantir que check-out seja pelo menos 1 dia depois
             checkInDate.setDate(checkInDate.getDate() + 1);
             const minCheckOut = `${checkInDate.getFullYear()}-${String(checkInDate.getMonth() + 1).padStart(2, '0')}-${String(checkInDate.getDate()).padStart(2, '0')}`;
             dateSelectorOut.min = minCheckOut;
             
-            // Se o check-out atual for no mesmo dia ou antes do check-in, limpa o valor
             if (dateSelectorOut.value && new Date(dateSelectorOut.value) <= new Date(this.value)) {
                 dateSelectorOut.value = '';
             }
@@ -96,7 +95,8 @@ export default function dateSelector() {
         <option value="3">3 pessoas</option>
         <option value="4">4 pessoas</option>
         <option value="5">5 ou mais pessoas</option>`;
-    guestsAmount.className = 'card p-4 shadow-lg';
+    guestsAmount.className = 'card p-4 shadow-lg guest-amount';
+    guestsAmount.id = 'guest-amount';
     guestsAmount.style.width = '300px';
     guestsAmount.style.height = '70px';
     guestsAmount.style.maxWidth = '300px';

@@ -23,7 +23,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 }elseif ($_SERVER['REQUEST_METHOD'] === "POST"){  
     $contentType = $_SERVER['CONTENT_TYPE'] ?? '';
     
-    if (strpos($contentType, 'application/json') !== false) {
+    if (strpos($contentType, 'multipart/form-data') !== false) {
+        $data = $_POST;
+        $data['fotos'] = $_FILES['fotos'] ?? null;
+        RoomController::create($conn, $data);
+    }
+
+    else if (strpos($contentType, 'application/json') !== false) {
         $data = json_decode(file_get_contents('php://input'), true);
         
         if(isset($data['inicio']) && isset($data['fim'])){
@@ -32,7 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
         }else{
             RoomController::create($conn, $data);
         }
-    } else {
+    }
+
+    else {
         $data = $_POST;
         $data['fotos'] = $_FILES['fotos'] ?? null;
         RoomController::create($conn, $data);
