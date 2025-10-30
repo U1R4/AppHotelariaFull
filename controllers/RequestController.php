@@ -6,7 +6,7 @@ class RequestController{
     public static function create($conn, $data){
         $result = RequestModel::create($conn, $data);
         
-        ValidateController::validateData($data);
+        ValidateController::validateData($data, ['pagamento, quartos']);
         if($result){
             return jsonResponse(['message'=> 'criado']);
         }else{

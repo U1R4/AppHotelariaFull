@@ -1,8 +1,11 @@
 <?php
-    require_once __DIR__ . "/../models/AddonsModel.php";
+require_once __DIR__ . "/../models/AddonsModel.php";
+require_once "ValidateController.php";
 
     class AddonsController{
         public static function create($conn, $data){
+
+            ValidateController::validateData($data,['nome', 'preco']);
             $result = AddonsModel::create($conn, $data);
             if($result){
                 return jsonResponse(['message'=> 'criado']);

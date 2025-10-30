@@ -19,7 +19,7 @@ function validateToken($token){
         $key = new Key(SECRET_KEY, "HS256");
         $decode = JWT::decode($token, $key);
         $result = json_decode(json_encode($decode->sub), true);
-        return $result;       
+        return $result;
 
     }catch(Exception $error){
         return false;

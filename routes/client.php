@@ -12,6 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 
 
 }elseif ($_SERVER['REQUEST_METHOD'] === "DELETE"){
+    validateTokenAPI('ADM');
+
     $data = json_decode(file_get_contents('php://input'), true);
     $id =  $data['id'];
     
@@ -33,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
     
 
 }elseif ($_SERVER['REQUEST_METHOD'] === "PUT"){  
+    validateTokenAPI('ADM');
     $data = json_decode(file_get_contents('php://input'), true);
     $id =  $data['id'];
     
