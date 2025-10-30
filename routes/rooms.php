@@ -11,6 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
     }
 
 }elseif ($_SERVER['REQUEST_METHOD'] === "DELETE"){
+    validateTokenAPI('func');
+
     $data = json_decode(file_get_contents('php://input'), true);
     $id =  $data['id'] ?? null;
     
@@ -21,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
     }
 
 }elseif ($_SERVER['REQUEST_METHOD'] === "POST"){  
+
     $contentType = $_SERVER['CONTENT_TYPE'] ?? '';
     
     if (strpos($contentType, 'multipart/form-data') !== false) {
@@ -30,6 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
     }
 
     else if (strpos($contentType, 'application/json') !== false) {
+
         $data = json_decode(file_get_contents('php://input'), true);
         
         if(isset($data['inicio']) && isset($data['fim'])){
@@ -46,7 +50,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
         RoomController::create($conn, $data);
     }
 
-}elseif ($_SERVER['REQUEST_METHOD'] === "PUT"){  
+}elseif ($_SERVER['REQUEST_METHOD'] === "PUT"){
+    validateTokenAPI('func');
+
     $data = json_decode(file_get_contents('php://input'), true);
     $id =  $data['id'] ?? null;
     

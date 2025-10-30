@@ -12,6 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 
 
 }elseif ($_SERVER['REQUEST_METHOD'] === "DELETE"){
+    validateTokenAPI('func');
+
     $data = json_decode(file_get_contents('php://input'), true);
     $id =  $data['id'];
     
@@ -22,7 +24,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
     }
 
 
-}elseif ($_SERVER['REQUEST_METHOD'] === "POST"){  
+}elseif ($_SERVER['REQUEST_METHOD'] === "POST"){ 
+    validateTokenAPI('func');
+
     $data = json_decode(file_get_contents('php://input'), true);
     
     if(isset($data)){
@@ -32,7 +36,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
     }
     
 
-}elseif ($_SERVER['REQUEST_METHOD'] === "PUT"){  
+}elseif ($_SERVER['REQUEST_METHOD'] === "PUT"){
+    validateTokenAPI('func');
+    
     $data = json_decode(file_get_contents('php://input'), true);
     $id =  $data['id'];
     
