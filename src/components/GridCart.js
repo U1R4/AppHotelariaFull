@@ -1,4 +1,91 @@
-import { removeItemFromHotelCart, getCart } from "../store/CartStore.js";
+import { removeItemFromHotelCart, getCart, clearHotelCart } from "../store/CartStore.js";
+import { finishedOrder } from "../api/reserveAPI.js";
+import { getToken } from "../api/authAPI.js";
+
+function mostrarPopupPagamento() {
+    return new Promise((resolve) => {
+        const modal = document.createElement('div');
+        modal.className = 'modal fade show d-block';
+        modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
+        
+        modal.innerHTML = `
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Selecione o Método de Pagamento</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="radio" name="pagamento" id="pagamentoCredito" value="credito" checked>
+                            <label class="form-check-label" for="pagamentoCredito">
+                                Cartão de Crédito
+                            </label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="radio" name="pagamento" id="pagamentoDebito" value="debito">
+                            <label class="form-check-label" for="pagamentoDebito">
+                                Cartão de Débito
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="pagamento" id="pagamentoPix" value="pix">
+                            <label class="form-check-label" for="pagamentoPix">
+                                PIX
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-cancelar">Cancelar</button>
+                        <button type="button" class="btn btn-primary btn-confirmar">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        const btnConfirmar = modal.querySelector('.btn-confirmar');
+        const btnCancelar = modal.querySelector('.btn-cancelar');
+
+        btnConfirmar.addEventListener('click', () => {
+            const metodoSelecionado = modal.querySelector('input[name="pagamento"]:checked').value;
+            document.body.removeChild(modal);
+            resolve(metodoSelecionado);
+        });
+
+        btnCancelar.addEventListener('click', () => {
+            document.body.removeChild(modal);
+            resolve(null);
+        });
+    });
+}
+
+async function finalizarReserva(cartItems, metodoPagamento) {
+    try {
+        const token = getToken();
+        
+        if (!token) {
+            alert("Você precisa estar logado para fazer uma reserva");
+            return false;
+        }
+
+        const result = await finishedOrder(cartItems, metodoPagamento);
+        
+        if (result.ok) {
+            alert("Reserva realizada com sucesso!");
+            clearHotelCart();
+            return true;
+        } else {
+            alert("Erro ao realizar reserva: " + (result.message || "Erro desconhecido"));
+            return false;
+        }
+
+    } catch (error) {
+        console.error("Erro na reserva:", error);
+        alert("Erro de comunicação ao tentar reservar");
+        return false;
+    }
+}
 
 export default function Grid(cartItems = [], onUpdateCart) {
     const Grid = document.createElement('div');
@@ -55,7 +142,9 @@ export default function Grid(cartItems = [], onUpdateCart) {
             <th>Total:</th>
             <td class="text-center">
                 ${items.length > 0 ? `
-                    <button type="submit" class="btn btn-primary">Finalizar Reserva</button>
+                    <button type="button" class="btn btn-primary btn-finalizar-reserva">
+                        Finalizar Reserva
+                    </button>
                 ` : ''}
             </td>
             <td>${new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(totalGeral)}</td>
@@ -73,6 +162,29 @@ export default function Grid(cartItems = [], onUpdateCart) {
             }
         });
     });
+
+    const btnFinalizar = Grid.querySelector('.btn-finalizar-reserva');
+    if (btnFinalizar) {
+        btnFinalizar.addEventListener('click', async function() {
+            const metodoPagamento = await mostrarPopupPagamento();
+            
+            if (!metodoPagamento) {
+                return;
+            }
+
+            this.disabled = true;
+            this.textContent = "Processando...";
+            
+            const success = await finalizarReserva(items, metodoPagamento);
+            
+            if (success && onUpdateCart) {
+                onUpdateCart();
+            } else {
+                this.disabled = false;
+                this.textContent = "Finalizar Reserva";
+            }
+        });
+    }
 
     return Grid;
 }

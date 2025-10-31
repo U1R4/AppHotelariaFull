@@ -31,7 +31,7 @@ export function removeItemFromHotelCart(i) {
 
 }
 
-export function clearHotel_Cart() {
+export function clearHotelCart() {
     setCart({
         status: "draft",
         items: []
