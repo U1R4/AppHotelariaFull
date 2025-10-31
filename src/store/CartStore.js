@@ -32,10 +32,7 @@ export function removeItemFromHotelCart(i) {
 }
 
 export function clearHotelCart() {
-    setCart({
-        status: "draft",
-        items: []
-    });
+    setCart([]);
 }
 
 export function getTotalItems() {
